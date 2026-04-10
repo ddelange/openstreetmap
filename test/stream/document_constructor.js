@@ -26,11 +26,33 @@ module.exports.tests.instantiate = function(test, common) {
     stream.pipe( through.obj( function( doc, enc, next ){
       t.equal( Object.getPrototypeOf(doc), Document.prototype, 'correct proto' );
       t.equal( doc.getId(), 'X/1', 'correct id' );
-      t.equal( doc.getLayer(), 'venue', 'defaults to venue' );
+      t.equal( doc.getLayer(), 'venue', 'defaults to venue when no tags match' );
       t.end(); // test will fail if not called (or called twice).
       next();
     }));
     stream.write({ id: 1, type: 'X' });
+  });
+};
+
+module.exports.tests.layer_classification = function(test, common) {
+  test('layer: address tags produce address layer', function(t) {
+    var stream = constructor();
+    stream.pipe( through.obj( function( doc, enc, next ){
+      t.equal( doc.getLayer(), 'address', 'classified as address' );
+      t.end();
+      next();
+    }));
+    stream.write({ id: 1, type: 'node', tags: { 'addr:housenumber': '123', 'addr:street': 'Main St' } });
+  });
+
+  test('layer: venue tags produce venue layer', function(t) {
+    var stream = constructor();
+    stream.pipe( through.obj( function( doc, enc, next ){
+      t.equal( doc.getLayer(), 'venue', 'classified as venue' );
+      t.end();
+      next();
+    }));
+    stream.write({ id: 2, type: 'node', tags: { amenity: 'cafe', name: 'Bean There' } });
   });
 };
 

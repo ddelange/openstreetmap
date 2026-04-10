@@ -8,6 +8,8 @@ const through = require('through2');
 const Document = require('pelias-model').Document;
 const peliasLogger = require( 'pelias-logger' ).get( 'openstreetmap' );
 const _ = require('lodash');
+const features = require('../config/features');
+const { classify } = require('../util/layerClassifier');
 
 module.exports = function(){
 
@@ -19,8 +21,9 @@ module.exports = function(){
       }
       var uniqueId = [ item.type, item.id ].join('/');
 
-      // we need to assume it will be a venue and later if it turns out to be an address it will get changed
-      var doc = new Document( 'openstreetmap', 'venue', uniqueId );
+      // classify the layer from OSM tags; address_extractor will further refine address records
+      var layer = classify(item.tags || {}, features);
+      var doc = new Document( 'openstreetmap', layer, uniqueId );
 
       // Set latitude / longitude
       if( item.hasOwnProperty('lat') && item.hasOwnProperty('lon') ){
