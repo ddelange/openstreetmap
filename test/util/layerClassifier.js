@@ -55,17 +55,11 @@ module.exports.tests.patternMatchesTags = function(test, common) {
 };
 
 module.exports.tests.classify = function(test, common) {
-  // venue is listed before address, mirroring real features.js ordering
+  // address is not a layer in real features.js; these fakeFeatures test the generic classifier
   const fakeFeatures = {
     venue:   { tags: ['amenity+name', 'leisure+name'] },
-    address: { tags: ['addr:housenumber+addr:street'] },
     river:   { tags: ['waterway~river+name'] }
   };
-
-  test('classify: matches address layer', function(t) {
-    t.equal(classify({ 'addr:housenumber': '1', 'addr:street': 'Main St' }, fakeFeatures), 'address');
-    t.end();
-  });
 
   test('classify: matches venue layer', function(t) {
     t.equal(classify({ amenity: 'cafe', name: 'Bean There' }, fakeFeatures), 'venue');
@@ -87,25 +81,17 @@ module.exports.tests.classify = function(test, common) {
     t.end();
   });
 
-  test('classify: venue layer has priority over address when both could match', function(t) {
-    // venue is declared before address in fakeFeatures (and real features.js), so named POIs
-    // with address tags get classified as venue, not address
-    const tags = { 'addr:housenumber': '1', 'addr:street': 'Main St', amenity: 'cafe', name: 'Cafe' };
+  test('classify: first declared layer wins when multiple match', function(t) {
+    // if a record matches both venue and river, venue wins because it is declared first
+    const tags = { amenity: 'cafe', name: 'Riverside Cafe', waterway: 'river' };
     t.equal(classify(tags, fakeFeatures), 'venue');
     t.end();
   });
 
-  test('classify: named record with address but no specific venue tag returns address from classifier', function(t) {
-    // the classifier returns 'address' here; document_constructor overrides this to 'venue'
-    // since address_extractor handles address layer assignment downstream
+  test('classify: named address-only record falls back to venue (no address layer in real config)', function(t) {
+    // in real usage features.layers has no address key; these fall back to venue
     const tags = { 'addr:housenumber': '123', 'addr:street': 'Main St', name: 'Dry Creek Landfill' };
-    t.equal(classify(tags, fakeFeatures), 'address');
-    t.end();
-  });
-
-  test('classify: unnamed address record gets address layer', function(t) {
-    const tags = { 'addr:housenumber': '123', 'addr:street': 'Main St' };
-    t.equal(classify(tags, fakeFeatures), 'address');
+    t.equal(classify(tags, fakeFeatures), 'venue');
     t.end();
   });
 };

@@ -21,10 +21,9 @@ module.exports = function(){
       }
       var uniqueId = [ item.type, item.id ].join('/');
 
-      // classify the layer from OSM tags; default to 'venue' for anything that
-      // would classify as 'address' since address_extractor handles that downstream
-      var layer = classify(item.tags || {}, features);
-      if (layer === 'address') layer = 'venue';
+      // classify the layer from OSM tags; address_extractor assigns the address
+      // layer downstream — the classifier only covers named layers (venue, etc.)
+      var layer = classify(item.tags || {}, features.layers);
       var doc = new Document( 'openstreetmap', layer, uniqueId );
 
       // Set latitude / longitude

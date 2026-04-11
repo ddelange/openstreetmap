@@ -46,10 +46,10 @@ function config(opts){
   if(!opts.tags){
     // check if we import venues
     opts.importVenues = settings.imports.openstreetmap.import[0].importVenues;
-    const layers = opts.importVenues === false
-      ? Object.keys(features).filter(l => l !== 'venue')
-      : Object.keys(features);
-    opts.tags = layers.flatMap(layer => features[layer]?.tags ?? []);
+    const layerTags = opts.importVenues === false
+      ? []
+      : Object.values(features.layers).flatMap(l => l.tags ?? []);
+    opts.tags = features.addressTags.concat(layerTags);
   }
   return opts;
 }
