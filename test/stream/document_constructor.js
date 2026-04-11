@@ -35,10 +35,10 @@ module.exports.tests.instantiate = function(test, common) {
 };
 
 module.exports.tests.layer_classification = function(test, common) {
-  test('layer: address tags produce address layer', function(t) {
+  test('layer: address tags default to venue (address_extractor assigns address downstream)', function(t) {
     var stream = constructor();
     stream.pipe( through.obj( function( doc, enc, next ){
-      t.equal( doc.getLayer(), 'address', 'classified as address' );
+      t.equal( doc.getLayer(), 'venue', 'address records start as venue' );
       t.end();
       next();
     }));

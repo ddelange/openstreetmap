@@ -55,9 +55,10 @@ module.exports.tests.patternMatchesTags = function(test, common) {
 };
 
 module.exports.tests.classify = function(test, common) {
+  // venue is listed before address, mirroring real features.js ordering
   const fakeFeatures = {
-    address: { tags: ['addr:housenumber+addr:street'] },
     venue:   { tags: ['amenity+name', 'leisure+name'] },
+    address: { tags: ['addr:housenumber+addr:street'] },
     river:   { tags: ['waterway~river+name'] }
   };
 
@@ -86,9 +87,24 @@ module.exports.tests.classify = function(test, common) {
     t.end();
   });
 
-  test('classify: address layer has priority over venue when both could match', function(t) {
-    // address is declared before venue in fakeFeatures, so it wins
+  test('classify: venue layer has priority over address when both could match', function(t) {
+    // venue is declared before address in fakeFeatures (and real features.js), so named POIs
+    // with address tags get classified as venue, not address
     const tags = { 'addr:housenumber': '1', 'addr:street': 'Main St', amenity: 'cafe', name: 'Cafe' };
+    t.equal(classify(tags, fakeFeatures), 'venue');
+    t.end();
+  });
+
+  test('classify: named record with address but no specific venue tag returns address from classifier', function(t) {
+    // the classifier returns 'address' here; document_constructor overrides this to 'venue'
+    // since address_extractor handles address layer assignment downstream
+    const tags = { 'addr:housenumber': '123', 'addr:street': 'Main St', name: 'Dry Creek Landfill' };
+    t.equal(classify(tags, fakeFeatures), 'address');
+    t.end();
+  });
+
+  test('classify: unnamed address record gets address layer', function(t) {
+    const tags = { 'addr:housenumber': '123', 'addr:street': 'Main St' };
     t.equal(classify(tags, fakeFeatures), 'address');
     t.end();
   });

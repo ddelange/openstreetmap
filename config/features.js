@@ -3,15 +3,12 @@
  default list of tags to extract from the pbf file when running
  imports, organized by layer. @see: https://github.com/pelias/pbf2json for more info.
  Layer order determines classifier priority — first match wins.
+ venue is listed before address so that named POIs with address tags are
+ classified as venues, not addresses (address classification is handled
+ downstream by address_extractor).
 **/
 
 module.exports = {
-  address: {
-    tags: [
-      'addr:housenumber+addr:street',
-      'addr:housenumber+addr:place'  // @ref https://github.com/pelias/pelias/issues/787#issuecomment-477137803
-    ]
-  },
   venue: {
     tags: [
       'amenity+name',
@@ -50,6 +47,12 @@ module.exports = {
       'aeroway~airport+name',
       'brand+name',
       'healthcare+name'
+    ]
+  },
+  address: {
+    tags: [
+      'addr:housenumber+addr:street',
+      'addr:housenumber+addr:place'  // @ref https://github.com/pelias/pelias/issues/787#issuecomment-477137803
     ]
   }
 };
