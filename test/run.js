@@ -18,6 +18,7 @@ var tests = [
   require('./stream/stats'),
   require('./stream/tag_mapper'),
   require('./stream/addresses_without_street'),
+  require('./stream/venueFilter'),
   require('./util/parseSemicolonDelimitedValues'),
   require('./util/layerClassifier'),
   require('./util/resolveFeatures')
