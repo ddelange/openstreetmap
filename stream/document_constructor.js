@@ -8,8 +8,11 @@ const through = require('through2');
 const Document = require('pelias-model').Document;
 const peliasLogger = require( 'pelias-logger' ).get( 'openstreetmap' );
 const _ = require('lodash');
-const features = require('../config/features');
+const settings = require('pelias-config').generate(require('../schema'));
+const resolveFeatures = require('../util/resolveFeatures');
 const { classify } = require('../util/layerClassifier');
+
+const { layers } = resolveFeatures(settings);
 
 module.exports = function(){
 
@@ -23,7 +26,7 @@ module.exports = function(){
 
       // classify the layer from OSM tags; address_extractor assigns the address
       // layer downstream — the classifier only covers named layers (venue, etc.)
-      var layer = classify(item.tags || {}, features.layers);
+      var layer = classify(item.tags || {}, layers);
       var doc = new Document( 'openstreetmap', layer, uniqueId );
 
       // Set latitude / longitude

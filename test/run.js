@@ -19,7 +19,8 @@ var tests = [
   require('./stream/tag_mapper'),
   require('./stream/addresses_without_street'),
   require('./util/parseSemicolonDelimitedValues'),
-  require('./util/layerClassifier')
+  require('./util/layerClassifier'),
+  require('./util/resolveFeatures')
 ];
 
 tests.map(function(t) {
