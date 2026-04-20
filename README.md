@@ -94,6 +94,24 @@ The OSM importer will look for a file with a name matching this value in the con
 
 If downloading from a remote URL, the filename must match the value in `sourceURL`.
 
+#### `imports.openstreetmap.layers`
+
+This is an object you can use to define your own layers based on OSM tags. For example, if you wanted a layer `coffee` for just coffee shops you could set:
+
+```
+{
+  "imports": {
+    "openstreetmap": {
+      "layers": {
+        "coffee": {
+          "tags": [ "amenity~cafe+name" ]
+        }
+      }
+    }
+  }
+}
+```
+
 #### `imports.openstreetmap.leveldbpath`
 
 This is the directory where temporary files will be stored in order to
@@ -105,6 +123,8 @@ Defaults to `tmp`.
 #### `imports.openstreetmap.importVenues`
 
 By default, the OSM importer imports both venue records and addresses. If set to false, only address records will be imported.
+
+You can also disable venue import by setting `imports.openstreetmap.layers.venue` to an empty value.
 
 #### `imports.openstreetmap.removeDisusedVenues`
 
