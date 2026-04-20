@@ -21,7 +21,14 @@ module.exports = Joi.object().keys({
       download: Joi.array().items(Joi.object().keys({
         sourceURL: Joi.string()
       }).requiredKeys('sourceURL').unknown(true)),
-      deduplicate: Joi.boolean()
+      deduplicate: Joi.boolean(),
+      addressTags: Joi.array().items(Joi.string()),
+      layers: Joi.object().pattern(
+        Joi.string(),
+        Joi.object().keys({
+          tags: Joi.array().items(Joi.string())
+        })
+      )
     }).requiredKeys('datapath', 'leveldbpath', 'import').unknown(true)
   }).requiredKeys('openstreetmap').unknown(true)
 }).requiredKeys('imports').unknown(true);

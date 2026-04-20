@@ -1,7 +1,6 @@
 var path = require('path');
 var through = require('through2');
 var settings = require('pelias-config').generate();
-var features = require('../../config/features');
 var proxyquire = require('proxyquire');
 
 var fakeGeneratedConfig = {
