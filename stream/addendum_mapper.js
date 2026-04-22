@@ -7,23 +7,7 @@
 
 const through = require('through2');
 const peliasLogger = require('pelias-logger').get('openstreetmap');
-const whitelist = [
-  'wheelchair', // Wheelchair accessibility
-  'iata', // IATA airport codes
-  'icao', // ICAO airport codes
-  'wikidata', // Wikidata concordance
-  'wikipedia', // Wikipedia concordance
-  'operator', // Operator name
-  'brand', // Brand name
-  'website', // Website URL
-  'phone', // Telephone number
-  'opening_hours', // Opening hours
-
-  // COVID-19
-  'opening_hours:covid19',
-  'delivery:covid19',
-  'safety:mask:covid19'
-];
+const whitelist = require('../config/addendum_whitelist');
 
 module.exports = function(){
 
