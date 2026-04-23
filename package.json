@@ -15,6 +15,8 @@
     "end-to-end": "export NODE_ENV=test && node test/end-to-end.js;",
     "lint": "jshint .",
     "start": "./bin/start",
+    "taginfo": "node scripts/generate_taginfo.js",
+    "prepublishOnly": "npm run taginfo",
     "test": "npm run units",
     "ci": "node ./test/ci-config.js && npm test && npm run end-to-end",
     "units": "./bin/test",
