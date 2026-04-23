@@ -140,7 +140,7 @@ const output = {
   project: {
     name:          'Pelias Geocoder — OpenStreetMap importer',
     description:   'Imports OpenStreetMap data into the Pelias geocoding engine',
-    project_url:   pkg.homepage,
+    project_url:   'https://pelias.io',
     doc_url:       `${pkg.homepage}#readme`,
     icon_url:      'https://github.com/pelias.png',
     contact_name:  'Pelias Team',
