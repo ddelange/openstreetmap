@@ -32,8 +32,9 @@ function patternMatchesTags(pattern, tags) {
  * @returns {string} layer name
  */
 function classify(tags, features) {
+  const matchesTags = p => patternMatchesTags(p, tags);
   for (const [layer, config] of Object.entries(features)) {
-    if (Array.isArray(config.tags) && config.tags.some(p => patternMatchesTags(p, tags))) {
+    if (Array.isArray(config.tags) && config.tags.some(matchesTags)) {
       return layer;
     }
   }

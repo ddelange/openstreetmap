@@ -47,9 +47,9 @@ function config(opts){
     // check if we import venues
     opts.importVenues = settings.imports.openstreetmap.import[0].importVenues;
     const features = resolveFeatures(settings);
-    const layerTags = opts.importVenues === false
-      ? []
-      : Object.values(features.layers).flatMap(l => l.tags ?? []);
+    const layerTags = opts.importVenues === false ?
+      [] :
+      Object.values(features.layers).flatMap(l => l.tags ?? []);
     opts.tags = features.addressTags.concat(layerTags);
   }
   return opts;
