@@ -61,7 +61,6 @@ module.exports.tests.whitelist_venue_tags = function(test, common) {
     t.true( features.layers.venue.tags.includes('aeroway~helipad+name') );
     t.true( features.layers.venue.tags.includes('aeroway~airstrip+name') );
     t.true( features.layers.venue.tags.includes('aeroway~heliport+name') );
-    t.true( features.layers.venue.tags.includes('aeroway~areodrome+name') );
     t.true( features.layers.venue.tags.includes('aeroway~spaceport+name') );
     t.true( features.layers.venue.tags.includes('aeroway~landing_strip+name') );
     t.true( features.layers.venue.tags.includes('aeroway~airfield+name') );

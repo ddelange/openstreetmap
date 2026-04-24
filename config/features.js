@@ -48,7 +48,6 @@ module.exports = {
         'aeroway~helipad+name',
         'aeroway~airstrip+name',
         'aeroway~heliport+name',
-        'aeroway~areodrome+name',
         'aeroway~spaceport+name',
         'aeroway~landing_strip+name',
         'aeroway~airfield+name',
